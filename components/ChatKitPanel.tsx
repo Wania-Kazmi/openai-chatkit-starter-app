@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
+
 import {
   STARTER_PROMPTS,
   PLACEHOLDER_INPUT,
@@ -264,23 +265,84 @@ export function ChatKitPanel({
   const chatkit = useChatKit({
     api: { getClientSecret },
     theme: {
-      colorScheme: theme,
-      ...getThemeConfig(theme),
-    },
-    startScreen: {
-      greeting: GREETING,
-      prompts: STARTER_PROMPTS,
-    },
-    composer: {
-      placeholder: PLACEHOLDER_INPUT,
-      attachments: {
-        // Enable attachments
-        enabled: true,
+    colorScheme: 'light',
+    radius: 'round',
+    density: 'normal',
+    color: {
+      grayscale: {
+        hue: 207,
+        tint: 2,
+        shade: -2
       },
+      accent: {
+        primary: '#5688bd',
+        level: 1
+      },
+      surface: {
+        background: '#c3daff',
+        foreground: '#ffffff'
+      }
     },
-    threadItemActions: {
-      feedback: false,
+    typography: {
+      baseSize: 16,
+      fontFamily: '"OpenAI Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif',
+      fontFamilyMono: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace',
+      fontSources: [
+        {
+          family: 'OpenAI Sans',
+          src: 'https://cdn.openai.com/common/fonts/openai-sans/v2/OpenAISans-Regular.woff2',
+          weight: 400,
+          style: 'normal',
+          display: 'swap'
+        }
+      // ...and 7 more font sources
+      ]
+    }
+  },
+  composer: {
+    attachments: {
+      enabled: true,
+      maxCount: 5,
+      maxSize: 10485760
     },
+    tools: [
+      {
+        id: 'search_docs',
+        label: 'Search docs',
+        shortLabel: 'Docs',
+        placeholderOverride: 'Search documentation',
+        icon: 'book-open',
+        pinned: true
+      }
+      // ...and 1 more tool
+    ],
+    models: [
+      {
+        id: 'gpt-5',
+        label: 'gpt-5',
+        description: 'Balanced intelligence',
+        'default': true
+      }
+      // ...and 3 more models
+    ],
+  },
+  startScreen: {
+    greeting: 'How can I help you today?',
+    prompts: [
+      {
+        icon: 'circle-question',
+        label: 'What is AI Driven Development?',
+        prompt: 'What is AI Driven Development?'
+      },
+      {
+        icon: "info",
+        label: 'Give me ideas to improve my workflow in agent development',
+        prompt: 'Give me ideas to improve my workflow'
+      }
+      // ...and 7 more prompts
+    ],
+  },
+
     onClientTool: async (invocation: {
       name: string;
       params: Record<string, unknown>;

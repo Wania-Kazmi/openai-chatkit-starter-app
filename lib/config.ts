@@ -15,7 +15,8 @@ export const STARTER_PROMPTS: StartScreenPrompt[] = [
 
 export const PLACEHOLDER_INPUT = "Ask anything...";
 
-export const GREETING = "How can I help you today?";
+export const GREETING = "Hello! How can I help you with?";  // from startScreen.greeting
+ // from composer.placeholder
 
 export const getThemeConfig = (theme: ColorScheme): ThemeOption => ({
   color: {
